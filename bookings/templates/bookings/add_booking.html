@@ -30,23 +30,29 @@
 
         <form method="POST" action="{% url 'add_booking' %}">
             {% csrf_token %}
+          
             <div class="mb-3">
-                {{ form.date.label_tag }} {{ form.date }}
+              <label for="{{ form.date.id_for_label }}" class="form-label">{{ form.date.label }}</label>
+              {{ form.date }}
             </div>
+          
             <div class="mb-3">
-                {{ form.time.label_tag }} {{ form.time }}
+              <label for="{{ form.time.id_for_label }}" class="form-label">{{ form.time.label }}</label>
+              {{ form.time }}
             </div>
+          
             <div class="mb-3">
-                {{ form.instructor.label_tag }} {{ form.instructor }}
+              <label for="{{ form.instructor.id_for_label }}" class="form-label">{{ form.instructor.label }}</label>
+              {{ form.instructor }}
             </div>
+          
             <div class="mb-3">
-                {{ form.description.label_tag }} {{ form.description }}
+              <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label }}</label>
+              {{ form.description }}
             </div>
-
-            <div>
-                <button type="submit" class="btn btn-primary">Add Booking</button>
-            </div>
-        </form>
+          
+            <button type="submit" class="btn btn-primary">Add Booking</button>
+          </form>
     </div>
 </body>
 
