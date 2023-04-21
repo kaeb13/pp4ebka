@@ -9,8 +9,7 @@
 <body>
     <h1>Book your workout</h1>
     
-  
-    
+    <h2>Available workouts</h2>
     <table>
         {% for booking in bookings %}
             <tr>
@@ -23,5 +22,18 @@
             <tr><td>No bookings have been made yet</td></tr>
         {% endfor %}
     </table> 
+    
+    <h2>Add a booking</h2>
+    <form method="POST" action="add">
+        {% csrf_token %}
+        {{ form }}
+        
+        <div>
+            <p>
+                <button type="submit">Book</button>
+            </p>
+        </div>
+    </form>
 
+</body>
 </html>
