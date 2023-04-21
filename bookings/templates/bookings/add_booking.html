@@ -5,26 +5,35 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <!-- BOOTSTRAP -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl7/1L_dstPt3+1ft7gfd2sbXxKk5M5J5d5M8anHIl" crossorigin="anonymous"/>
-    
-    
- <title>Add Your Booking</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Add A Booking</title>
 </head>
 
 <body>
-    <h1>Book your workout</h1>
-    
-    <form method="POST" action="{% url 'add_booking' %}">
-        {% csrf_token %}
-        {{ form }}
-        
-        <div>
-            <p>
-                <button type="submit">Add Booking</button>
-            </p>
-        </div>
-    </form>
+    <div class="container">
+        <h1 class="my-4">Book your workout</h1>
+
+        <form method="POST" action="{% url 'add_booking' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.date.label_tag }} {{ form.date }}
+            </div>
+            <div class="mb-3">
+                {{ form.time.label_tag }} {{ form.time }}
+            </div>
+            <div class="mb-3">
+                {{ form.instructor.label_tag }} {{ form.instructor }}
+            </div>
+            <div class="mb-3">
+                {{ form.description.label_tag }} {{ form.description }}
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-primary">Add Booking</button>
+            </div>
+        </form>
+    </div>
+</body>
 
 </html>
