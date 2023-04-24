@@ -16,7 +16,7 @@
         <title>Pilates Club Booking Site</title>
     </head>
 <body>
-    <div class="container">
+    <div class="container text-left">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <ul>
                 <li>Content bookings</li>
@@ -27,41 +27,49 @@
         <h1 class="my-4">Pilates Booking Site</h1>
         
         <h2>Available workouts</h2>
-        <table class="table">
-            <thead>
+<div class="text-left">
+    <p>Choose from one of our four different types of Pilates classes:</p>
+    <ul>
+        <li>Mat Pilates - a basic Pilates class that focuses on the fundamentals and building core strength</li>
+        <li>Reformer Pilates - a more advanced class that uses a machine called a reformer to add resistance and intensity to the exercises</li>
+        <li>Barre Pilates - a hybrid class that combines Pilates with ballet-inspired movements at a barre</li>
+        <li>Power Pilates - a high-energy class that incorporates cardio and strength training into the traditional Pilates moves</li>
+    </ul>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Instructor</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
                 <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Instructor</th>
-                    <th>Description</th>
+                    <td>{{ booking.date }}</td>
+                    <td>{{ booking.time }}</td>
+                    <td>{{ booking.instructor }}</td>
+                    <td>{{ booking.description }}</td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for booking in bookings %}
-                    <tr>
-                        <td>{{ booking.date }}</td>
-                        <td>{{ booking.time }}</td>
-                        <td>{{ booking.instructor }}</td>
-                        <td>{{ booking.description }}</td>
-                    </tr>
-                {% empty %}
-                    <tr><td colspan="4">No bookings have been made yet</td></tr>
-                {% endfor %}
-            </tbody>
-        </table> 
-        
-        <h2>Add a booking</h2>
-        <form method="POST" action="add">
-            {% csrf_token %}
-            <div class="mb-3">
-                {{ form }}
-            </div>
+            {% empty %}
+                <tr><td colspan="4">No bookings have been made yet</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<form method="POST" action="add" class="text-center">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form }}
+        </div>
+        <div>
             <div>
-                <p>
-                    <a href="{% url 'add_booking' %}" class="btn btn-primary">Book a workout</a>
-                </p>
+                <a href="{% url 'add_booking' %}" class="btn btn-primary mx-auto">Book Here</a>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
 </body>
 </html>

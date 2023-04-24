@@ -1,11 +1,14 @@
 body {
     font-family: 'Lato', sans-serif;
+    background-image: url("/static/images/background_pilatesclub.jpg");
+    background-size: cover;
 }
 
 .container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+    background-color: #ffff;
 }
 
 h1, h2 {
@@ -69,5 +72,10 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #ffff;
+    color: #552A1B;
 }
+
+.form-group:last-child {
+    margin-left: 0;
+ }
