@@ -44,11 +44,11 @@
           </div>
           <div>
               <label for="time">Time:</label>
-              <select name="time" required>
-                  <option value="" selected disabled>Select a time</option>
-                  {% for time_slot in time_slots %}
-                      <option value="{{ time_slot.time }}">{{ time_slot.time }}</option>
-                  {% endfor %}
+                  <select name="time" required>
+                    <option value="" selected disabled>Select a time</option>
+                    {% for time_slot in available_time_slots %}
+                        <option value="{{ time_slot.time }}">{{ time_slot.time|time:'H:i' }}</option>
+                    {% endfor %}
               </select>
           </div>
           <div>

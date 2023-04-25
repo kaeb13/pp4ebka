@@ -1,15 +1,10 @@
 from django import forms
-from .models import Booking, Instructor
+from .models import Booking, Instructor, WorkoutType
 
 
 class BookingForm(forms.ModelForm):
     instructor = forms.ModelChoiceField(queryset=Instructor.objects.all())
-    workout_type = forms.ChoiceField(choices=(
-        ('mat_pilates', 'Mat Pilates'),
-        ('reformer_pilates', 'Reformer Pilates'),
-        ('barre_pilates', 'Barre Pilates'),
-        ('power_pilates', 'Power Pilates'),
-    ))
+    workout_type = forms.ModelChoiceField(queryset=WorkoutType.objects.all())
 
     class Meta:
         model = Booking

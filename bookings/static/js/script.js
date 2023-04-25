@@ -1,94 +1,41 @@
-// Get a reference to the date input field and the time select field
-const dateInput = document.querySelector('input[name="date"]');
-const timeSelect = document.querySelector('select[name="time"]');
+const timeSelect = document.getElementById('id_time');
+const instructorSelect = document.getElementById('id_instructor');
+const workoutTypeSelect = document.getElementById('id_workout_type');
+const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
-// Set up a listener for when the user selects a date
-dateInput.addEventListener('change', () => {
-  // Get the selected date
-  const selectedDate = new Date(dateInput.value);
-
-  // Make an AJAX request to get the available time slots for that date
-  fetch(`/get_time_slots?date=${selectedDate.toISOString()}`)
-    .then(response => response.json())
-    .then(timeSlots => {
-      // Clear the current options in the time select field
-      timeSelect.innerHTML = '';
-
-      // Add a new option for each available time slot
-      timeSlots.forEach(timeSlot => {
-        const option = document.createElement('option');
-        option.value = timeSlot.time;
-        option.textContent = timeSlot.display;
-        timeSelect.appendChild(option);
-      });
-    })
-    .catch(error => {
-      console.error(error);
+function updateAvailableTimeSlots() {
+  const date = document.getElementById('id_date').value;
+  const instructorId = instructorSelect.value;
+  const workoutTypeId = workoutTypeSelect.value;
+  const url = `/available_time_slots/${date}/?instructor=${instructorId}&workout_type=${workoutTypeId}`;
+  
+  fetch(url, {
+    headers: {
+      'X-CSRFToken': csrfToken
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    // Remove existing options from the time select element
+    while (timeSelect.options.length > 1) {
+      timeSelect.remove(1);
+    }
+    
+    // Add new options for the available time slots
+    data.available_slots.forEach(slot => {
+      const option = document.createElement('option');
+      option.value = slot;
+      option.textContent = slot;
+      timeSelect.add(option);
     });
-});
+  })
+  .catch(error => console.error(error));
+}
 
-document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      events: '/bookings/api/events/',
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-      },
-      selectable: true,
-      selectMirror: true,
-      select: function(arg) {
-        var title = prompt('Event Title:');
-        if (title) {
-          calendar.addEvent({
-            title: title,
-            start: arg.start,
-            end: arg.end,
-            allDay: arg.allDay
-          })
-        }
-        calendar.unselect()
-      },
-      eventClick: function(arg) {
-        if (confirm('Are you sure you want to delete this event?')) {
-          arg.event.remove()
-        }
-      }
-    });
-    calendar.render();
-  });document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      events: '/bookings/api/events/',
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-      },
-      selectable: true,
-      selectMirror: true,
-      select: function(arg) {
-        var title = prompt('Event Title:');
-        if (title) {
-          calendar.addEvent({
-            title: title,
-            start: arg.start,
-            end: arg.end,
-            allDay: arg.allDay
-          })
-        }
-        calendar.unselect()
-      },
-      eventClick: function(arg) {
-        if (confirm('Are you sure you want to delete this event?')) {
-          arg.event.remove()
-        }
-      }
-    });
-    calendar.render();
-  });
+// Update available time slots when the date, instructor, or workout type changes
+document.getElementById('id_date').addEventListener('change', updateAvailableTimeSlots);
+instructorSelect.addEventListener('change', updateAvailableTimeSlots);
+workoutTypeSelect.addEventListener('change', updateAvailableTimeSlots);
 
-  console.log("hello!");
+// Initial update of available time slots
+updateAvailableTimeSlots();

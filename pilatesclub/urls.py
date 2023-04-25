@@ -21,6 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', get_bookings, name='get_bookings'),
     path('add/', add_booking, name='add_booking'),
-    path('available_time_slots/<str:date>/', available_time_slots, name='available_time_slots')
+    path('available_time_slots/<str:date>/', available_time_slots, name='available_time_slots'),
  
 ]
