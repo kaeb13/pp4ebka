@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% load static %}
+{% load static %}
 
 <head>
     <meta charset="UTF-8">
@@ -18,42 +18,59 @@
 </head>
 
 <body>
-    <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <ul>
-                <li>Content bookings</li>
-                <li>Content add bookings</li>
-            </ul>
-            
-        </nav>
-        <h1 class="my-4">Book your workout</h1>
-
-        <form method="POST" action="{% url 'add_booking' %}">
-            {% csrf_token %}
-          
-            <div class="mb-3">
-              <label for="{{ form.date.id_for_label }}" class="form-label">{{ form.date.label }}</label>
-              {{ form.date }}
-            </div>
-          
-            <div class="mb-3">
-              <label for="{{ form.time.id_for_label }}" class="form-label">{{ form.time.label }}</label>
-              {{ form.time }}
-            </div>
-          
-            <div class="mb-3">
-              <label for="{{ form.instructor.id_for_label }}" class="form-label">{{ form.instructor.label }}</label>
-              {{ form.instructor }}
-            </div>
-          
-            <div class="mb-3">
-              <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label }}</label>
-              {{ form.description }}
-            </div>
-          
-            <button type="submit" class="btn btn-primary">Add Booking</button>
-          </form>
-    </div>
+  <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <ul>
+              <li>Content bookings</li>
+              <li>Content add bookings</li>
+          </ul>
+      </nav>
+      
+      <h1>Available Workouts</h1>
+      <p>Choose from one of our four different types of Pilates classes:</p>
+      <ul>
+          <li>Mat Pilates - a basic Pilates class that focuses on the fundamentals and building core strength</li>
+          <li>Reformer Pilates - a more advanced class that uses a machine called a reformer to add resistance and intensity to the exercises</li>
+          <li>Barre Pilates - a hybrid class that combines Pilates with ballet-inspired movements at a barre</li>
+          <li>Power Pilates - a high-energy class that incorporates cardio and strength training into the traditional Pilates moves</li>
+      </ul>
+      
+      <h1>Pilates Club Booking Site</h1>
+      <form method="POST">
+          {% csrf_token %}
+          <div>
+              <label for="date">Date:</label>
+              <input type="date" name="date" required>
+          </div>
+          <div>
+              <label for="time">Time:</label>
+              <select name="time" required>
+                  <option value="" selected disabled>Select a time</option>
+                  {% for time_slot in time_slots %}
+                      <option value="{{ time_slot.time }}">{{ time_slot.time }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+          <div>
+              <label for="instructor">Instructor:</label>
+              <select name="instructor" required>
+                  <option value="" selected disabled>Select an instructor</option>
+                  {% for instructor in instructors %}
+                      <option value="{{ instructor.pk }}">{{ instructor.name }} - {{ instructor.specialization }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+          <div>
+              <label for="workout_type">Workout Type:</label>
+              <select name="workout_type" required>
+                  <option value="" selected disabled>Select a workout type</option>
+                  {% for value, label in form.workout_type.field.choices %}
+                      <option value="{{ value }}">{{ label }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+          <button type="submit">Book Now</button>
+      </form>
+  </div>
 </body>
-
 </html>
