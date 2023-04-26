@@ -15,8 +15,8 @@ $(document).ready(function() {
             let available_slots = data.available_slots;
             timeField.empty();
             timeField.append('<option value="" selected disabled>Select a time</option>');
-            $.each(available_slots, function(index, time) {
-                timeField.append('<option value="' + time + '">' + time + '</option>');
+            $.each(available_slots, function(index, slot) {
+                timeField.append(`<option value="${slot[1]}">${slot[0]}</option>`);
             });
         });
     } else {

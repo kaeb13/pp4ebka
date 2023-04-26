@@ -115,5 +115,5 @@ def available_time_slots(request, date):
     else:
         time_slots = []
     
-    available_slots = [slot.time for slot in time_slots]
+    available_slots = [(slot.time.strftime("%H:%M"), slot.id) for slot in time_slots]
     return JsonResponse({'available_slots': available_slots})
