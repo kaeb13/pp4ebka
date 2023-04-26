@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import ToBook, Instructor, Booking, TimeSlot, WorkoutType
 from .forms import BookingForm
 from django.http import JsonResponse
@@ -45,8 +45,8 @@ def add_booking(request):
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('get_bookings')
+            booking = form.save()
+            return redirect('confirm_booking', booking_id=booking.id)
     else:
         form = BookingForm()
 
@@ -67,7 +67,7 @@ def add_booking(request):
         # Remove the time slots that are already booked
         booked_time_slots = [booking.time for booking in bookings]
         available_time_slots = [time_slot for time_slot in time_slots if time_slot.time not in booked_time_slots]
-
+        booking_id = 1
         context = {
             'form': form,
             'instructors': instructors,
@@ -117,3 +117,12 @@ def available_time_slots(request, date):
     
     available_slots = [(slot.time.strftime("%H:%M"), slot.id) for slot in time_slots]
     return JsonResponse({'available_slots': available_slots})
+
+
+def confirm_booking(request, booking_id=None):
+    if booking_id is not None:
+        booking = get_object_or_404(Booking, id=booking_id)
+        context = {'booking': booking}
+        return render(request, 'bookings/confirm_booking.html', context)
+    else:
+        return redirect('get_bookings')

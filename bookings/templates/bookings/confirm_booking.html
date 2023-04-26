@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- BOOTSTRAP -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <!-- LINK TO CSS -->
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <!-- GOOGLE FONTS  -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+        <title>Pilates Club Booking Site</title>
+    </head>
+<body>
+<div class="container text-left">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <ul>
+                <li>Content bookings</li>
+                <li>Content add bookings</li>
+            </ul>
+            
+        </nav>
+        <h1 class="my-4">Pilates Booking Site</h1>
+        <h1>Booking Confirmation</h1>
+    <p>Thank you, {{ user.first_name }} {{ user.last_name }}!</p>
+    <p>Your booking has been confirmed for:</p>
+    <ul>
+        <li>Class: {{ booking.class_name }}</li>
+        <li>Date: {{ booking.date }}</li>
+        <li>Time: {{ booking.time }}</li>
+    </ul>
+    <p>If you need to cancel or modify your booking, please contact us.</p>
+    <a href="{% url 'home' %}">Return to Homepage</a>
+        
+    
+</div>
+</body>
+</html>

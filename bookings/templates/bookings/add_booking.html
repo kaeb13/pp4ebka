@@ -37,7 +37,7 @@
       </ul>
       
       <h1>Pilates Club Booking Site</h1>
-      <form method="POST">
+      <form id="booking-form" method="POST" action="{% url 'add_booking' %}">
           {% csrf_token %}
           <div>
               <label for="date">Date:</label>

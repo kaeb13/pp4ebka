@@ -30,3 +30,36 @@ $(document).ready(function() {
   dateField.on('change', updateAvailableTimeSlots);
 });
 console.log("jQuery and script.js are connected!");
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const bookingForm = document.getElementById("booking-form");
+  
+    bookingForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const formData = new FormData(bookingForm);
+  
+      fetch(bookingForm.action, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value,
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Form submission failed.");
+          }
+        })
+        .then((data) => {
+          if (data && data.booking_id) {
+            window.location.href = `/confirm_booking/${data.booking_id}/`;
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
+  });
