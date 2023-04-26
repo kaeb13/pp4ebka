@@ -45,6 +45,7 @@ class Booking(models.Model):
 class TimeSlot(models.Model):
     date = models.DateField()
     time = models.TimeField()
+    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.date} at {self.time}'
+        return f"{self.time} - {self.date} - {self.instructor}"

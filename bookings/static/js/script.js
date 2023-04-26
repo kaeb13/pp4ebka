@@ -1,41 +1,32 @@
-const timeSelect = document.getElementById('id_time');
-const instructorSelect = document.getElementById('id_instructor');
-const workoutTypeSelect = document.getElementById('id_workout_type');
-const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+$(document).ready(function() {
+  let dateField = $('input[name="date"]');
+  let timeField = $('select[name="time"]');
+  let instructorField = $('select[name="instructor"]');
+  let workoutTypeField = $('select[name="workout_type"]');
 
-function updateAvailableTimeSlots() {
-  const date = document.getElementById('id_date').value;
-  const instructorId = instructorSelect.value;
-  const workoutTypeId = workoutTypeSelect.value;
-  const url = `/available_time_slots/${date}/?instructor=${instructorId}&workout_type=${workoutTypeId}`;
-  
-  fetch(url, {
-    headers: {
-      'X-CSRFToken': csrfToken
+  function updateAvailableTimeSlots() {
+    let instructor_id = instructorField.val();
+    let workout_type_id = workoutTypeField.val();
+    let date = dateField.val();
+
+    if (instructor_id && workout_type_id && date) {
+        let url = `/available_time_slots/${date}/?instructor=${instructor_id}&workout_type=${workout_type_id}`;
+        $.getJSON(url, function(data) {
+            let available_slots = data.available_slots;
+            timeField.empty();
+            timeField.append('<option value="" selected disabled>Select a time</option>');
+            $.each(available_slots, function(index, time) {
+                timeField.append('<option value="' + time + '">' + time + '</option>');
+            });
+        });
+    } else {
+        timeField.empty();
+        timeField.append('<option value="" selected disabled>Select a time</option>');
     }
-  })
-  .then(response => response.json())
-  .then(data => {
-    // Remove existing options from the time select element
-    while (timeSelect.options.length > 1) {
-      timeSelect.remove(1);
-    }
-    
-    // Add new options for the available time slots
-    data.available_slots.forEach(slot => {
-      const option = document.createElement('option');
-      option.value = slot;
-      option.textContent = slot;
-      timeSelect.add(option);
-    });
-  })
-  .catch(error => console.error(error));
 }
 
-// Update available time slots when the date, instructor, or workout type changes
-document.getElementById('id_date').addEventListener('change', updateAvailableTimeSlots);
-instructorSelect.addEventListener('change', updateAvailableTimeSlots);
-workoutTypeSelect.addEventListener('change', updateAvailableTimeSlots);
-
-// Initial update of available time slots
-updateAvailableTimeSlots();
+  instructorField.on('change', updateAvailableTimeSlots);
+  workoutTypeField.on('change', updateAvailableTimeSlots);
+  dateField.on('change', updateAvailableTimeSlots);
+});
+console.log("jQuery and script.js are connected!");
